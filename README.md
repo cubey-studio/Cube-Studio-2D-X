@@ -60,7 +60,7 @@ Build and run project:
 cubey --run
 ```
 Example: Basic C++ Project
-main.cpp:
+`main.cpp`:
 ```Cpp
 #include <CubeStudio2D-X/cubestudio2d.h>
 #include "game.h"
@@ -75,7 +75,7 @@ int main() {
     return 0;
 }
 ```
-game.h & game.cpp
+`game.h` & `game.cpp`
 Example of creating a scene, adding labels and sprites using the engine.
 Build with CMake:
 ```Bash
