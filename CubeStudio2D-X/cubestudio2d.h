@@ -230,16 +230,17 @@ and here is the steps to use Cube Studio 2D-X:
 #ifndef __CUBESTUDIO2DX__
 #define __CUBESTUDIO2DX__
 
-#include <string>
-#include <vector>
+#include <string>   // For std::string
+#include <vector>   // For std::vector
 #include <memory>
-#include <iostream>
+#include <iostream> // For std::cout or std::cin
 #include <map>
 #include <cmath>
 
 #define CUBESTUDIO2DX_VERSION_MAJOR 1
 #define CUBESTUDIO2DX_VERSION_MINOR 0
 #define CUBESTUDIO2DX_VERSION_PATCH 0
+// Defines the version of Cube Studio 2D-X
 
 #define NS_CS_BEGIN namespace CS {
 #define NS_CS_END }
@@ -364,5 +365,6 @@ inline void shutdown();
 inline void runWithScene(CSScene* scene);
 
 NS_CS_END
+// Ends
 
 #endif // __CUBESTUDIO2DX__
