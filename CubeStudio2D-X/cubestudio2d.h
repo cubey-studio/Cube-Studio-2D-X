@@ -1,7 +1,7 @@
 #pragma once
 
 /*
-Hello World, this was updated in 01/02/2026 and the license is from Apache License 2.0 and here is the License:
+Hello World, this file was updated in 01/02/2026 and the license is from Apache License 2.0 and here is the License:
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -190,7 +190,7 @@ Hello World, this was updated in 01/02/2026 and the license is from Apache Licen
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright [yyyy] [name of copyright owner]
+   Copyright 2026 RyanGD2025
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -203,6 +203,28 @@ Hello World, this was updated in 01/02/2026 and the license is from Apache Licen
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+And you need to have this include:
+#include <CubeStudio2D-X/cubestudio2d.h>
+Tip: use "<>" instead of "" in #include
+This header "cubestudio2d.h" is a framework that is Cube Studio 2D-X because here is 2 IDEs:
+Visual Studio 2026 (Recomended)
+or
+VSCode (limitations)
+And i recomend:
+Visual Studio 2026 because it's better to program like: in Visual Studio 2026, you can use the framework Cube Studio 2D-X and program in C++ but we don't support any languages like: Lua, JavaScript, Python or something else, we only support C++, but in any update will add a random language.
+But here is some steps:
+1. Install Visual Studio 2026 (not VSCode)
+2. Install Python 3.10 <= 3.14.2 (or later)
+and here is the steps to use Cube Studio 2D-X:
+1. First, install Visual Studio 2026 (not VSCode)
+2. And then, install Python 3.10 <= 3.14.2 (or later)
+3. Use CMD or Powershell if you have installed python 3.10 <= 3.14.2, but if not, install.
+4. Use the command `cubey --version`, if it shows, the framework is installed, if not, install the framework.
+5. Now, the command you write is: `cubey --version` and it shows, use `cubey new --project YOUR_GAME_NAME --path com.example.app -cpp` now.
+6. If the Project is created, use `cubey --download -deps` to install dependencies like: SDL2, SDL2_mixer, GLEW and others.
+7. And write the code with:
+`#include <CubeStudio2D-X/cubestudio2d.h>` and Click the run Button and Your game is running! But if shows a error, that's because you write the code wrong and that's it!
 */
 
 #ifndef __CUBESTUDIO2DX__
