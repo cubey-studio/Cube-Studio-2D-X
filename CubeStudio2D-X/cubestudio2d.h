@@ -1,17 +1,7 @@
 #pragma once
-/*
-This is the header made/updated in 01/01/2026 that needs to be if type: '#include <CubeStudio2D-X/cubestudio2d.h>'
-but, if you have Visual Studio 2026, great but if you have VSCode, don't use it.
-Anyways, see the license in https://github.com/cubey-studio/Cube-Studio-2D-X/blob/main/LICENSE
-and there is the steps that need to have:
-1. Python 3.10 <= 3.14.2 (or later),
-2. CMake 4.x.x <= 4.2.2 (or later) &
-3. Visual Studio 2026
-And it's like https://cocos2d-x.org/cocos2dx/
-The license is under Apache License 2.0
-The framework is written in C++ but the framework only supports C++
 
-The license:
+/*
+Hello World, this was updated in 01/02/2026 and the license is from Apache License 2.0 and here is the License:
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -214,108 +204,142 @@ The license:
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
 #ifndef __CUBESTUDIO2DX__
 #define __CUBESTUDIO2DX__
-// Defines the "__CUBESTUDIO2DX__", it's like `#define __COCOS2D_H__` but has no "_H", only `#define __CUBESTUDIO2DX__`
 
-#include <string>   // For std::string
-#include <vector>   // For std::vector
-#include <iostream> // For std::cout or std::cin
+#include <string>
+#include <vector>
 #include <memory>
-#include <cmath>    // For math
+#include <iostream>
 #include <map>
+#include <cmath>
 
-/*
-Defines the version major, minor and patch
-*/
 #define CUBESTUDIO2DX_VERSION_MAJOR 1
 #define CUBESTUDIO2DX_VERSION_MINOR 0
 #define CUBESTUDIO2DX_VERSION_PATCH 0
 
-// ------------------------
-// NAMESPACE
-// ------------------------
 #define NS_CS_BEGIN namespace CS {
 #define NS_CS_END }
 
 NS_CS_BEGIN
 
-inline void printVersion() {
-    std::cout << "Cube Studio 2D-X v" 
-              << CUBESTUDIO2DX_VERSION_MAJOR << "." 
-              << CUBESTUDIO2DX_VERSION_MINOR << "." 
-              << CUBESTUDIO2DX_VERSION_PATCH << std::endl; // prints the version of Cube Studio 2D-X
-}
-
 // ------------------------
-// VECTOR 2
+// Vec2
 // ------------------------
 struct Vec2 {
     float x, y;
     Vec2(float xx=0, float yy=0) : x(xx), y(yy) {}
-    Vec2 operator+(const Vec2& other) const { return Vec2(x+other.x, y+other.y); }
-    Vec2 operator-(const Vec2& other) const { return Vec2(x-other.x, y-other.y); }
+    Vec2 operator+(const Vec2& v) const { return Vec2(x+v.x, y+v.y); }
+    Vec2 operator-(const Vec2& v) const { return Vec2(x-v.x, y-v.y); }
     Vec2 operator*(float f) const { return Vec2(x*f, y*f); }
 };
 
 // ------------------------
-// LABEL
+// CSNode - Base class
 // ------------------------
-class Label {
+class CSNode {
 public:
-    Label(const std::string& text="") : text(text) {}
+    CSNode() : position(0,0), parent(nullptr) {}
+    virtual ~CSNode() {}
+
+    void setPosition(const Vec2& pos) { position = pos; }
+    Vec2 getPosition() const { return position; }
+
+    void addChild(std::shared_ptr<CSNode> node) {
+        children.push_back(node);
+        node->parent = this;
+    }
+
+    virtual void update(float dt) {
+        for(auto& c : children) c->update(dt);
+    }
+
+    virtual void draw() {
+        for(auto& c : children) c->draw();
+    }
+
+protected:
+    Vec2 position;
+    CSNode* parent;
+    std::vector<std::shared_ptr<CSNode>> children;
+};
+
+// ------------------------
+// CSLabel
+// ------------------------
+class CSLabel : public CSNode {
+public:
+    CSLabel(const std::string& t="") : text(t) {}
     void setText(const std::string& t) { text = t; }
     std::string getText() const { return text; }
-    void draw() { std::cout << "[Label] " << text << std::endl; }
+
+    void draw() override {
+        std::cout << "[Label] " << text 
+                  << " at (" << position.x << "," << position.y << ")\n";
+    }
 
 private:
     std::string text;
 };
 
 // ------------------------
-// SPRITE
+// CSSprite
 // ------------------------
-class Sprite {
+class CSSprite : public CSNode {
 public:
-    Sprite(const std::string& filename="") : filename(filename), position(0,0) {}
-    void setPosition(const Vec2& pos) { position = pos; }
-    Vec2 getPosition() const { return position; }
-    void draw() { std::cout << "[Sprite] " << filename << " at (" << position.x << "," << position.y << ")" << std::endl; }
+    CSSprite(const std::string& f="") : filename(f) {}
 
-private:
-    std::string filename;
-    Vec2 position;
-};
-
-// ------------------------
-// SCENE BASE
-// ------------------------
-class Scene {
-public:
-    virtual ~Scene() {}
-    virtual void createScene(const std::string& name) {}
-    void addLabel(std::shared_ptr<Label> label) { labels.push_back(label); }
-    void addSprite(std::shared_ptr<Sprite> sprite) { sprites.push_back(sprite); }
-
-    void draw() {
-        for(auto& l : labels) l->draw();
-        for(auto& s : sprites) s->draw();
+    void draw() override {
+        std::cout << "[Sprite] " << filename 
+                  << " at (" << position.x << "," << position.y << ")\n";
     }
 
 private:
-    std::vector<std::shared_ptr<Label>> labels;
-    std::vector<std::shared_ptr<Sprite>> sprites;
+    std::string filename;
 };
 
 // ------------------------
-// ENGINE
+// CSAudio
 // ------------------------
-inline void initialize() { std::cout << "Cube Studio 2D-X initializing..." << std::endl; }
-inline void shutdown() { std::cout << "Cube Studio 2D-X shutting down..." << std::endl; }
-inline void runWithScene(Scene* scene) {
-    std::cout << "Running scene..." << std::endl;
-    scene->draw();
-}
+class CSAudio {
+public:
+    static void play(const std::string& file) {
+        std::cout << "[Audio] Playing " << file << std::endl;
+    }
+    static void stop(const std::string& file) {
+        std::cout << "[Audio] Stopping " << file << std::endl;
+    }
+    static void setVolume(float vol) {
+        std::cout << "[Audio] Volume set to " << vol << std::endl;
+    }
+};
+
+// ------------------------
+// CSScene
+// ------------------------
+class CSScene : public CSNode {
+public:
+    void createScene(const std::string& name) {
+        sceneName = name;
+        std::cout << "Scene created: " << sceneName << std::endl;
+    }
+
+    void draw() override {
+        std::cout << "Drawing Scene: " << sceneName << std::endl;
+        CSNode::draw();
+    }
+
+private:
+    std::string sceneName;
+};
+
+// ------------------------
+// Engine functions
+// ------------------------
+inline void initialize();
+inline void shutdown();
+inline void runWithScene(CSScene* scene);
 
 NS_CS_END
 
