@@ -13,7 +13,6 @@ def create_project(args):
         project_name = args[args.index("--project") + 1]
         project_path = args[args.index("--path") + 1]
         print(f"Creating new C++ project '{project_name}' at '{project_path}'")
-        # Aqui você pode gerar a estrutura de pastas e arquivos do projeto
     else:
         print("Error: You must specify --project and --path")
 
